@@ -1,0 +1,39 @@
+? "%YAML 1.2"
+environment:
+  vcenter: nonprod
+
+  pool:
+    webvmdefaults: &webvmdefaults
+        network: devweb
+        compute: nonprodweb
+
+    appvmdefaults: &appvmdefaults
+      <<: *webvmdefaults
+      network: devapp
+      compute: nonprodapp
+
+  components:
+    api:
+        addresses:
+            - 10.10.137.42
+            - 10.10.137.43
+
+    cui:    
+        addresses:
+            - 10.10.137.64
+            - 10.10.137.65
+
+    terracotta:
+        addresses:
+            - 10.10.137.95
+            - 10.10.137.96
+
+    email:
+        addresses:
+            - 10.10.161.53
+            - 10.10.161.54
+
+    mq:
+        addresses:
+            - 10.10.161.77
+            - 10.10.161.78

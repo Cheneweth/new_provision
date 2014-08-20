@@ -1,0 +1,62 @@
+? "%YAML 1.2"
+platform:
+  name: app
+  description: 'description of the app'
+
+  environments:
+    - int
+    - prod
+
+  tiers:
+    - Web
+    - App
+
+  nodenameconvention:
+    - environment
+    - '-'
+    - component
+    - '-'
+    - instance
+    - geo
+
+  pools:
+    webvmdefaults: &webvmdefaults
+      count: 2
+      tier: Web
+      image: 'centos-6.5-x86_64-20140714'
+      compute: nonprodweb
+      port: 80
+      runlist:
+        - 'role[loc_uswest]'
+        - 'role[base]'
+      componentrole: 'role[#]'
+
+    appvmdefaults: &appvmdefaults
+      <<: *webvmdefaults
+      tier: App
+      compute: nonprodapp
+
+  components:
+    api:
+      <<: *webvmdefaults
+      port: 8080
+
+    cui:    
+      <<: *webvmdefaults
+      port: 8082
+
+    terracotta:
+      <<: *webvmdefaults
+      compute: nonprodtc
+      image: 'centos32g-6.5-x86_64-20140714'
+
+    email:
+      <<: *appvmdefaults
+      port: 8130
+
+    mq:
+      <<: *appvmdefaults
+      port: 1234
+      compute: nonprodmq
+      image: 'centos32g-6.5-x86_64-20140714'
+

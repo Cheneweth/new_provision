@@ -1,0 +1,57 @@
+? "%YAML 1.2"
+environment:
+  vcenter: prod
+
+  pool:
+    webvmdefaults: &webvmdefaults
+        network: prodweb
+        count: 4
+        compute: prodweb
+
+    appvmdefaults: &appvmdefaults
+      <<: *webvmdefaults
+      network: prodapp
+      compute: prodapp
+
+
+  components:
+    api:
+        <<: *webvmdefaults
+        addresses:
+            - 10.119.137.72
+            - 10.119.137.73
+            - 10.119.137.74
+            - 10.119.137.75
+
+    cui:
+        <<: *webvmdefaults
+        addresses:
+            - 10.119.137.133
+            - 10.119.137.134
+            - 10.119.137.135
+            - 10.119.137.136
+
+    terracotta:
+        <<: *webvmdefaults
+        count: 2
+        compute: prodtc
+        addresses:
+            - 10.119.137.218
+            - 10.119.137.219
+        port: 0000
+
+    email:
+        <<: *appvmdefaults
+        addresses:
+            - 10.119.161.137
+            - 10.119.161.138
+            - 10.119.161.139
+            - 10.119.161.140
+
+    mq:
+        <<: *appvmdefaults
+        count: 2
+        compute: prodmq
+        addresses:
+            - 10.119.161.206
+            - 10.119.161.207
